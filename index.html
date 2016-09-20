@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>ReactJS</title>
+
+	<script src="./public/reactjs/react.js"></script>
+	<script src="./public/reactjs/react-dom.js"></script>
+	<!--<script src="./public/reactjs/browser.min.js"></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="./public/css/main.css">
+</head>
+<body>
+
+<div id="container"></div>
+
+<script type="text/babel">
+
+var Bacon = React.createClass({
+		render: function() {
+			return (
+			<div>
+			<h2>A sample component!</h2>
+			<p>Hey there</p>
+			</div>
+			);
+		}
+});
+
+
+
+var Movie = React.createClass({
+		render: function() {
+			return (
+				<div>
+					<h1>{this.props.title}</h1>
+					<h2>{this.props.genre}</h2>
+				</div>
+			)
+		}
+});
+
+
+var Comment = React.createClass({
+	getInitialState: function() {
+		return {editing: false}
+	},
+
+	edit: function(){
+		this.setState({editing: true});
+	},
+	remove: function(){
+		console.log("Delete button");
+		this.props.deleteFromBoard(this.props.index);
+	},
+
+	save: function() {
+		this.props.updateCommentText(this.refs.newText.value, this.props.index);
+		this.setState({editing: false});
+	},
+
+	renderForm: function() {
+		return(
+			<div className="commentContainer">
+				<textarea ref="newText" defaultValue={this.props.children}></textarea>
+				<button onClick={this.save} className="button-success">Save</button>
+			</div>
+		)
+	},
+
+	renderNormal: function() {
+		return (
+			<div className="commentContainer">
+				<div className="commentText">{this.props.children}</div>
+				<button onClick={this.edit} className="button-primary">Edit</button>
+				<button onClick={this.remove} className="button-danger">Remove</button>
+			</div>
+		)
+	},
+
+	render: function() {
+		if(this.state.editing){
+			return this.renderForm();
+		} else {
+			return this.renderNormal();
+		}
+	}
+
+});
+
+
+var Board = React.createClass({
+	getInitialState: function(){
+		return{
+			comments: [
+				'The 1st comment',
+				'The 2nd comment',
+				'The 3rd comment'
+			]
+		}
+	},
+
+	removeComment: function(i){
+		console.log('Removing comment: ' + i);
+		var arr = this.state.comments;
+		arr.splice(i, 1);
+		this.setState({comments: arr});
+	},
+
+	updateComment: function(newText, i){
+		console.log('Update Comment');
+		var arr = this.state.comments;
+		arr[i] = newText;
+		this.setState({comments: arr});	
+	},
+
+	eachComment: function(text, i){
+				 return (<Comment key={i} index={i} updateCommentText={this.updateComment} deleteFromBoard={this.removeComment}>
+				 {text}
+				 </Comment>);
+	},
+
+	render: function(){
+		return(
+			<div className="board">
+				{this.state.comments.map(this.eachComment)}
+			</div>
+		);
+	}
+});
+
+
+
+var CheckBox = React.createClass({
+	getInitialState: function() {
+		return {checked: false}
+	},
+
+	handleChecked: function() {
+		this.setState({checked: !this.state.checked})
+	},
+
+	render: function(){
+		var theMessage;
+		if(this.state.checked){
+			theMessage = 'Checked!'
+		} else {
+			theMessage = 'Unchecked!'
+		}
+		return (
+			<div>
+				<input type="checkbox" onChange={this.handleChecked} defaultChecked={this.state.checked}/>
+				<h3>Checkbox is {theMessage}</h3>
+			</div>
+		);
+	}
+});
+
+
+
+	ReactDOM.render(<Board/>, document.getElementById('container'));
+
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>
