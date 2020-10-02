@@ -21,7 +21,7 @@
     <div id="container"></div>
 
     <script type="text/babel">
-      // var Bacon = React.createClass({
+      // const Bacon = React.createClass({
       //   render: function () {
       //     return (
       //       <div>
@@ -32,7 +32,7 @@
       //   },
       // });
 
-      // var Movie = React.createClass({
+      // const Movie = React.createClass({
       //   render: function () {
       //     return (
       //       <div>
@@ -100,14 +100,14 @@
 
         const removeComment = (i) => {
           console.log("Removing comment: " + i);
-          var arr = [...comments];
+          const arr = [...comments];
           arr.splice(i, 1);
           setComments(arr);
         };
 
         const updateComment = (newText, i) => {
           console.log("Update Comment");
-          var arr = [...comments];
+          const arr = [...comments];
           arr[i] = newText;
           setComments(arr);
         };
@@ -133,7 +133,7 @@
         );
       }
 
-      // var CheckBox = React.createClass({
+      // const CheckBox = React.createClass({
       //   getInitialState: function () {
       //     return { checked: false };
       //   },
@@ -143,7 +143,7 @@
       //   },
 
       //   render: function () {
-      //     var theMessage;
+      //     const theMessage;
       //     if (this.state.checked) {
       //       theMessage = "Checked!";
       //     } else {
